@@ -1,0 +1,29 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+.ipynb_checkpoints/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# model weights / caches (downloaded on demand, never committed)
+models/
+.cache/
+*.onnx
+*.safetensors
+*.gguf
+*.bin
+
+# generated paper artifacts
+data/papers/
+outputs/
+
+# node / extension builds
+node_modules/
+dist/
