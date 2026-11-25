@@ -14,9 +14,12 @@ blind and low-vision researchers in computer science.
 - 🆓 **Free forever.** Every component has a zero-cost path: local open models, Gemini's free
   tier, or a shared cache of pre-processed papers.
 
-> Status: **early research prototype (M0).** The pipeline works end to end from the command line
-> (parse → describe figures → script → speech → Q&A). The browser extension and live voice loop
-> are next. See [docs/roadmap.md](docs/roadmap.md).
+> Status: **early research prototype (M1).**
+> - The pipeline works end to end: parse → describe figures → script → speech → Q&A.
+> - There is a local voice-first web app with push-to-talk.
+> - Next: hands-free barge-in, streaming answers, and testing with screen-reader users.
+>
+> See [docs/roadmap.md](docs/roadmap.md).
 
 ## Why
 
@@ -103,10 +106,27 @@ The LLM used for summaries and Q&A is set with `HEARXIV_LLM`: `openai:gpt-6.1-te
 
 See [`notebooks/01_figure_description_benchmark.ipynb`](notebooks/01_figure_description_benchmark.ipynb).
 It covers 18 standard seaborn/matplotlib figures with ground truth taken from the plotting code,
-11 models (cloud and local CPU), automatic fact checks and an LLM judge. All descriptions are
+10 models (cloud and local CPU), automatic fact checks and an LLM judge. All descriptions are
 side by side in [`benchmarks/figure_ocr/DESCRIPTIONS.md`](benchmarks/figure_ocr/DESCRIPTIONS.md).
 
-<!-- BENCHMARK_SUMMARY -->
+**Short answer:**
+
+| Model | Quality (0–1) | Hallucinations / figure | Cost / 1,000 figures | Runs |
+|---|---|---|---|---|
+| `gpt-6.1-terra` (**default**) | **0.93** | 0.22 | $3.09 | cloud |
+| `gpt-6.2-astra` | 0.91 | **0.11** | $18.09 | cloud |
+| `gpt-6-luna` (best value) | 0.89 | 1.00 | $0.36 | cloud |
+| `gemma-4-31b-it` | 0.86 | 1.71 | $0 | cloud (open weights) |
+| `gemini-3.5-flash-lite` (zero-cost) | 0.85 | 2.17 | $0 (free tier) | cloud |
+| `Qwen3.5-0.8B` | 0.68 | 5.72 | $0 | laptop CPU, ~100 s / figure |
+| `SmolVLM-256M` | 0.33 | 1.61 | $0 | laptop CPU |
+
+- **Default: `gpt-6.1-terra`.** A paper costs about 2–3 cents to describe, **once**, and the result is cached.
+- **Zero-cost option: Gemini Flash-Lite** works, but it invents about two claims per figure, often numbers.
+- **Tiny local models aren't good enough yet.** Quantised 2–4B models through llama.cpp are the next thing
+  to test.
+
+Full results, partial runs and caveats are in [`benchmarks/figure_ocr/README.md`](benchmarks/figure_ocr/README.md).
 
 ## Repository layout
 

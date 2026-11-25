@@ -47,7 +47,7 @@ outcome. Then the winning approach moves into `src/hearxiv/` with tests.
 
 | # | Question | Status |
 |---|---|---|
-| 01 | Which vision model should describe figures (quality vs. cost vs. local)? | done (v1) |
+| 01 | Which vision model should describe figures (quality vs. cost vs. local)? | done (v1): `gpt-6.1-terra` default; local 2–4B via llama.cpp still to test |
 | 02 | Does Phonon pronounce lexicon respellings correctly? (ASR round-trip) | planned |
 | 03 | How often does arXiv HTML parsing fail, and how? | planned |
 | 04 | Summary faithfulness: hallucinated numbers per minute of summary | planned |
