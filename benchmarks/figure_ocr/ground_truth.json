@@ -1,0 +1,987 @@
+[
+  {
+    "id": "01_line_loss_curves",
+    "file": "figures/01_line_loss_curves.png",
+    "chart_type": "line plot",
+    "type_keywords": [
+      "line"
+    ],
+    "difficulty": "easy",
+    "title": "Validation loss during training",
+    "x_label": "Training step",
+    "y_label": "Cross-entropy loss",
+    "series": [
+      "Baseline",
+      "LoRA",
+      "Full fine-tune"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "loss decreases over training",
+        "any": [
+          "decreas",
+          "declin",
+          "drop",
+          "fall",
+          "goes down",
+          "reduc"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "full fine-tune reaches the lowest loss",
+        "any": [
+          "full fine-tune"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "starting loss about 4.5",
+        "value": 4.5,
+        "tol": 0.25
+      },
+      {
+        "kind": "number",
+        "desc": "full fine-tune final loss about 1.62",
+        "value": 1.6282,
+        "tol": 0.12
+      },
+      {
+        "kind": "number",
+        "desc": "baseline final loss about 2.10",
+        "value": 2.0821,
+        "tol": 0.12
+      },
+      {
+        "kind": "number",
+        "desc": "x axis runs to 10000 steps",
+        "value": 10000.0,
+        "tol": 500
+      }
+    ]
+  },
+  {
+    "id": "02_bar_benchmark_accuracy",
+    "file": "figures/02_bar_benchmark_accuracy.png",
+    "chart_type": "bar chart",
+    "type_keywords": [
+      "bar"
+    ],
+    "difficulty": "easy",
+    "title": "ImageNet top-1 accuracy",
+    "x_label": "Model",
+    "y_label": "Top-1 accuracy (%)",
+    "series": [
+      "ResNet-50",
+      "ViT-B/16",
+      "ConvNeXt-T",
+      "Swin-T",
+      "Ours"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "Ours is best",
+        "any": [
+          "ours"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "Ours = 84.6",
+        "value": 84.6,
+        "tol": 0.2
+      },
+      {
+        "kind": "number",
+        "desc": "ResNet-50 = 76.1",
+        "value": 76.1,
+        "tol": 0.2
+      },
+      {
+        "kind": "number",
+        "desc": "ConvNeXt-T = 82.1",
+        "value": 82.1,
+        "tol": 0.2
+      },
+      {
+        "kind": "number",
+        "desc": "ViT-B/16 = 81.8",
+        "value": 81.8,
+        "tol": 0.2
+      },
+      {
+        "kind": "text",
+        "desc": "y axis does not start at zero (truncated at 70)",
+        "any": [
+          "70"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "03_grouped_bar_hue",
+    "file": "figures/03_grouped_bar_hue.png",
+    "chart_type": "grouped bar chart",
+    "type_keywords": [
+      "bar"
+    ],
+    "difficulty": "medium",
+    "title": "Scores by benchmark and model size",
+    "x_label": "Benchmark",
+    "y_label": "Score",
+    "series": [
+      "Small",
+      "Base",
+      "Large",
+      "GLUE",
+      "SuperGLUE",
+      "SQuAD F1"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "larger models score higher on every benchmark",
+        "any": [
+          "larger",
+          "increas",
+          "size",
+          "scale"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "SuperGLUE is the hardest / lowest",
+        "any": [
+          "superglue"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "Large on SQuAD about 91",
+        "value": 91.2,
+        "tol": 1.5
+      },
+      {
+        "kind": "number",
+        "desc": "Small on SuperGLUE about 65",
+        "value": 65.0,
+        "tol": 1.5
+      }
+    ]
+  },
+  {
+    "id": "04_heatmap_confusion_annotated",
+    "file": "figures/04_heatmap_confusion_annotated.png",
+    "chart_type": "heatmap (confusion matrix)",
+    "type_keywords": [
+      "heatmap",
+      "confusion"
+    ],
+    "difficulty": "medium",
+    "title": "Confusion matrix (test set)",
+    "x_label": "Predicted label",
+    "y_label": "True label",
+    "series": [
+      "cat",
+      "dog",
+      "bird",
+      "car"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "diagonal dominates / mostly correct",
+        "any": [
+          "diagonal",
+          "correct"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "main confusion is between cat and dog",
+        "any": [
+          "dog"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "car correctly classified 97",
+        "value": 97.0,
+        "tol": 0.5
+      },
+      {
+        "kind": "number",
+        "desc": "cat correct 88",
+        "value": 88.0,
+        "tol": 0.5
+      },
+      {
+        "kind": "number",
+        "desc": "dog predicted as cat 11",
+        "value": 11.0,
+        "tol": 0.5
+      }
+    ]
+  },
+  {
+    "id": "05_heatmap_attention_unannotated",
+    "file": "figures/05_heatmap_attention_unannotated.png",
+    "chart_type": "heatmap (attention map)",
+    "type_keywords": [
+      "heatmap",
+      "attention",
+      "matrix"
+    ],
+    "difficulty": "hard",
+    "title": "Layer 6, head 3 attention",
+    "x_label": "Key token",
+    "y_label": "Query token",
+    "series": [
+      "The",
+      "cat",
+      "sat",
+      "on",
+      "the",
+      "mat",
+      "."
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "lower-triangular / causal mask (upper triangle empty)",
+        "any": [
+          "triang",
+          "causal",
+          "upper",
+          "mask",
+          "above the diagonal",
+          "above the main diagonal"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "strong diagonal (tokens attend to themselves)",
+        "any": [
+          "diagonal",
+          "themselves",
+          "itself"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "'mat' attends strongly to 'cat'",
+        "any": [
+          "mat"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "color scale from 0 to 1",
+        "any": [
+          "0 to 1",
+          "0.0 to 1.0",
+          "between 0 and 1",
+          "0 and 1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "06_scatter_hue",
+    "file": "figures/06_scatter_hue.png",
+    "chart_type": "scatter plot",
+    "type_keywords": [
+      "scatter"
+    ],
+    "difficulty": "medium",
+    "title": "MMLU vs. parameter count",
+    "x_label": "Parameters (B)",
+    "y_label": "MMLU (%)",
+    "series": [
+      "Dense",
+      "MoE",
+      "Distilled"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "positive relationship: bigger models score higher",
+        "any": [
+          "increas",
+          "positive",
+          "higher",
+          "rise"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "diminishing returns / log-like curve",
+        "any": [
+          "diminish",
+          "plateau",
+          "log",
+          "flatten",
+          "taper",
+          "level off",
+          "slow"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "MoE tends highest",
+        "any": [
+          "moe"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "max parameters about 70",
+        "value": 70.0,
+        "tol": 5
+      }
+    ]
+  },
+  {
+    "id": "07_box_latency",
+    "file": "figures/07_box_latency.png",
+    "chart_type": "box plot",
+    "type_keywords": [
+      "box"
+    ],
+    "difficulty": "medium",
+    "title": "Inference latency by hardware",
+    "x_label": "Hardware",
+    "y_label": "Latency (ms)",
+    "series": [
+      "CPU",
+      "GPU",
+      "TPU",
+      "Edge NPU"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "CPU slowest / highest latency",
+        "any": [
+          "cpu"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "TPU fastest / lowest latency",
+        "any": [
+          "tpu"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "CPU median about 120 ms",
+        "value": 116.0557,
+        "tol": 15
+      },
+      {
+        "kind": "text",
+        "desc": "CPU has largest spread / outliers",
+        "any": [
+          "spread",
+          "variab",
+          "outlier",
+          "wide",
+          "range"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "08_violin_split",
+    "file": "figures/08_violin_split.png",
+    "chart_type": "violin plot",
+    "type_keywords": [
+      "violin"
+    ],
+    "difficulty": "hard",
+    "title": "Effect of chain-of-thought prompting",
+    "x_label": "Task",
+    "y_label": "Score",
+    "series": [
+      "Math",
+      "Code",
+      "Writing",
+      "Without CoT",
+      "With CoT"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "CoT helps Math the most",
+        "any": [
+          "math"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "CoT has little effect on Writing",
+        "any": [
+          "writing"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "split violins comparing two conditions",
+        "any": [
+          "split",
+          "halves",
+          "half",
+          "two conditions",
+          "side"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "Math with CoT centred around 73",
+        "value": 73.0,
+        "tol": 6
+      }
+    ]
+  },
+  {
+    "id": "09_hist_kde",
+    "file": "figures/09_hist_kde.png",
+    "chart_type": "histogram with KDE",
+    "type_keywords": [
+      "histogram",
+      "distribution",
+      "density"
+    ],
+    "difficulty": "medium",
+    "title": "Distribution of logit margins",
+    "x_label": "Logit margin",
+    "y_label": "Count",
+    "series": [
+      "In-distribution",
+      "Out-of-distribution"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "two separated modes / bimodal",
+        "any": [
+          "two",
+          "bimodal",
+          "separate",
+          "distinct",
+          "peaks"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "in-distribution centred near 0",
+        "value": 0.0,
+        "tol": 0.4
+      },
+      {
+        "kind": "number",
+        "desc": "out-of-distribution centred near 3",
+        "value": 3.0,
+        "tol": 0.4
+      },
+      {
+        "kind": "text",
+        "desc": "OOD narrower / fewer samples",
+        "any": [
+          "narrow",
+          "fewer",
+          "smaller",
+          "tighter"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "10_regplot",
+    "file": "figures/10_regplot.png",
+    "chart_type": "scatter with regression line",
+    "type_keywords": [
+      "regression",
+      "scatter",
+      "fit",
+      "trend line"
+    ],
+    "difficulty": "medium",
+    "title": "Compute vs. throughput (r = 0.94)",
+    "x_label": "GPU hours (thousands)",
+    "y_label": "Tokens/s (thousands)",
+    "series": [],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "strong positive linear relationship",
+        "any": [
+          "positive",
+          "linear",
+          "increas"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "correlation r = 0.94",
+        "value": 0.9392,
+        "tol": 0.02
+      },
+      {
+        "kind": "text",
+        "desc": "shaded confidence band around the line",
+        "any": [
+          "confidence",
+          "shaded",
+          "band",
+          "interval"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "y reaches about 25",
+        "value": 25.0,
+        "tol": 4
+      }
+    ]
+  },
+  {
+    "id": "11_lineplot_ci_logx",
+    "file": "figures/11_lineplot_ci_logx.png",
+    "chart_type": "line plot with confidence bands, log x-axis",
+    "type_keywords": [
+      "line"
+    ],
+    "difficulty": "hard",
+    "title": "Scaling of test error with data",
+    "x_label": "Dataset size (tokens)",
+    "y_label": "Error",
+    "series": [
+      "SGD",
+      "Adam",
+      "Muon"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "log-scale x axis",
+        "any": [
+          "log"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "error decreases with more data",
+        "any": [
+          "decreas",
+          "declin",
+          "drop",
+          "lower",
+          "reduc"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "Muon lowest error",
+        "any": [
+          "muon"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "shaded bands show variability across seeds",
+        "any": [
+          "confidence",
+          "shaded",
+          "band",
+          "interval",
+          "uncertain",
+          "variab"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "starting error about 3",
+        "value": 3.0,
+        "tol": 0.3
+      }
+    ]
+  },
+  {
+    "id": "12_multi_panel_subplots",
+    "file": "figures/12_multi_panel_subplots.png",
+    "chart_type": "multi-panel figure (2 subplots)",
+    "type_keywords": [
+      "panel",
+      "subplot",
+      "two plots",
+      "side-by-side",
+      "side by side",
+      "(a)",
+      "left"
+    ],
+    "difficulty": "hard",
+    "title": "(a) Accuracy / (b) Learning-rate sweep",
+    "x_label": "Epoch | Learning rate",
+    "y_label": "Accuracy | Final validation accuracy",
+    "series": [
+      "Train",
+      "Validation"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "panel (b) best learning rate 1e-3",
+        "any": [
+          "1e-3",
+          "0.001",
+          "10^-3",
+          "10\u207b\u00b3",
+          "10-3"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "best validation accuracy 0.89",
+        "value": 0.89,
+        "tol": 0.02
+      },
+      {
+        "kind": "text",
+        "desc": "validation diverges from train after epoch 12 (overfitting)",
+        "any": [
+          "overfit",
+          "diverge",
+          "gap",
+          "12"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "accuracy collapses to 0.62 at 1e-2",
+        "value": 0.62,
+        "tol": 0.03
+      }
+    ]
+  },
+  {
+    "id": "13_facetgrid_relplot",
+    "file": "figures/13_facetgrid_relplot.png",
+    "chart_type": "faceted line plots (small multiples)",
+    "type_keywords": [
+      "facet",
+      "panel",
+      "subplot",
+      "grid",
+      "small multiple"
+    ],
+    "difficulty": "hard",
+    "title": "Accuracy curves per dataset",
+    "x_label": "Epoch",
+    "y_label": "Accuracy",
+    "series": [
+      "CIFAR-10",
+      "CIFAR-100",
+      "Tiny-ImageNet",
+      "None",
+      "RandAugment"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "three panels, one per dataset",
+        "any": [
+          "three",
+          "3 panel",
+          "3 subplot"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "RandAugment better in all panels",
+        "any": [
+          "randaugment"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "CIFAR-10 highest accuracy",
+        "any": [
+          "cifar-10"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "Tiny-ImageNet tops out near 0.6",
+        "value": 0.59,
+        "tol": 0.05
+      }
+    ]
+  },
+  {
+    "id": "14_pointplot_ablation",
+    "file": "figures/14_pointplot_ablation.png",
+    "chart_type": "point plot with error bars",
+    "type_keywords": [
+      "point",
+      "error bar",
+      "line"
+    ],
+    "difficulty": "medium",
+    "title": "Ablation study (mean \u00b1 sd over 5 seeds)",
+    "x_label": "Variant",
+    "y_label": "BLEU",
+    "series": [
+      "Full model",
+      "- attention",
+      "- residual",
+      "- norm"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "full model best",
+        "any": [
+          "full model"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "removing residual hurts most",
+        "any": [
+          "residual"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "full model about 71",
+        "value": 71.2,
+        "tol": 1.5
+      },
+      {
+        "kind": "number",
+        "desc": "- residual about 58",
+        "value": 58.1,
+        "tol": 1.5
+      },
+      {
+        "kind": "text",
+        "desc": "error bars show standard deviation",
+        "any": [
+          "error bar",
+          "standard deviation",
+          "sd",
+          "variab"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "15_pairplot",
+    "file": "figures/15_pairplot.png",
+    "chart_type": "pair plot (scatter-plot matrix)",
+    "type_keywords": [
+      "pair",
+      "matrix",
+      "grid",
+      "scatter"
+    ],
+    "difficulty": "hard",
+    "title": "Feature pairs by species",
+    "x_label": "Petal length / Petal width / Sepal length",
+    "y_label": "same",
+    "series": [
+      "setosa-like",
+      "versicolor-like",
+      "virginica-like",
+      "Petal length",
+      "Petal width",
+      "Sepal length"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "setosa-like clearly separated",
+        "any": [
+          "setosa"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "petal features strongly correlated",
+        "any": [
+          "correlat",
+          "linear",
+          "positive"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "diagonal shows distributions",
+        "any": [
+          "diagonal",
+          "distribution",
+          "density",
+          "histogram",
+          "kde"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "16_clustermap",
+    "file": "figures/16_clustermap.png",
+    "chart_type": "clustered heatmap with dendrograms",
+    "type_keywords": [
+      "heatmap",
+      "cluster",
+      "dendrogram"
+    ],
+    "difficulty": "hard",
+    "title": "Normalized task scores (clustered)",
+    "x_label": "Task",
+    "y_label": "Model",
+    "series": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "QA",
+      "NLI",
+      "Summ.",
+      "Trans.",
+      "Code",
+      "Math"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "dendrograms / hierarchical clustering",
+        "any": [
+          "dendrogram",
+          "cluster",
+          "hierarch"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "two groups of models: language tasks vs code/math",
+        "any": [
+          "group",
+          "two clusters",
+          "cluster"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "M3/M4 strong at code/math",
+        "any": [
+          "m3",
+          "m4"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "17_ecdf",
+    "file": "figures/17_ecdf.png",
+    "chart_type": "ECDF plot",
+    "type_keywords": [
+      "cumulative",
+      "ecdf",
+      "cdf"
+    ],
+    "difficulty": "hard",
+    "title": "Response length distribution",
+    "x_label": "Tokens generated",
+    "y_label": "Proportion",
+    "series": [
+      "Greedy",
+      "Speculative"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "cumulative distribution",
+        "any": [
+          "cumulative",
+          "ecdf",
+          "cdf"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "speculative produces shorter responses (curve rises faster / to the left)",
+        "any": [
+          "speculative"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "y axis from 0 to 1",
+        "value": 1.0,
+        "tol": 0.01
+      }
+    ]
+  },
+  {
+    "id": "18_countplot_horizontal",
+    "file": "figures/18_countplot_horizontal.png",
+    "chart_type": "horizontal bar chart (counts)",
+    "type_keywords": [
+      "bar",
+      "count"
+    ],
+    "difficulty": "easy",
+    "title": "Papers in our survey by venue",
+    "x_label": "count",
+    "y_label": "Venue",
+    "series": [
+      "NeurIPS",
+      "ICML",
+      "ICLR",
+      "ACL",
+      "CVPR",
+      "EMNLP"
+    ],
+    "facts": [
+      {
+        "kind": "text",
+        "desc": "NeurIPS has the most papers",
+        "any": [
+          "neurips"
+        ]
+      },
+      {
+        "kind": "text",
+        "desc": "EMNLP has the fewest",
+        "any": [
+          "emnlp"
+        ]
+      },
+      {
+        "kind": "number",
+        "desc": "NeurIPS about 412",
+        "value": 412.0,
+        "tol": 20
+      },
+      {
+        "kind": "number",
+        "desc": "EMNLP about 133",
+        "value": 133.0,
+        "tol": 15
+      },
+      {
+        "kind": "text",
+        "desc": "bars are horizontal",
+        "any": [
+          "horizontal"
+        ]
+      }
+    ]
+  }
+]

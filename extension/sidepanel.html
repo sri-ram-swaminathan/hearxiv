@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>hearxiv</title>
+  <style>
+    body { font: 16px/1.5 system-ui, sans-serif; margin: 16px; background: #fff; color: #111; }
+    button { font-size: 18px; padding: 10px 14px; margin: 4px 4px 4px 0; }
+    #status { margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>hearxiv</h1>
+  <p id="paper" aria-live="polite">No paper selected.</p>
+  <div role="group" aria-label="Playback">
+    <button id="play">Play</button>
+    <button id="ask">Hold to ask (Space)</button>
+    <button id="slower">Slower</button>
+    <button id="faster">Faster</button>
+  </div>
+  <label>Mode
+    <select id="mode"><option value="5min">5-minute summary</option><option value="10min">10-minute summary</option><option value="full">Full walkthrough</option></select>
+  </label>
+  <p id="status" role="status" aria-live="polite">
+    Skeleton UI (milestone M2). Start the local server with <code>python -m hearxiv serve</code> (milestone M1).
+  </p>
+  <script src="sidepanel.js"></script>
+</body>
+</html>
