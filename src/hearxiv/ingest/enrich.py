@@ -48,7 +48,7 @@ def describe_figures(doc: PaperDoc, describer_spec: str, cache_dir: Path = CACHE
             continue
         if not fig.image_urls:
             continue
-        parts = []
+        parts, raw = [], []
         for i, url in enumerate(fig.image_urls):
             ext = Path(url).suffix.lower() or ".png"
             path = fetch_image(url, img_dir / f"{fig.id}_{i}{ext}")
@@ -59,9 +59,12 @@ def describe_figures(doc: PaperDoc, describer_spec: str, cache_dir: Path = CACHE
                 prompt += f"\nThis is panel {i + 1} of {len(fig.image_urls)} of the figure."
             out = describer.describe(path, prompt)
             log(f"  {fig.label} panel {i + 1}: {out.seconds:.1f}s")
+            raw.append(out.text)
             parts.append(out.text if len(fig.image_urls) == 1 else f"Panel {i + 1}. {out.text}")
-        long = " ".join(parts)
-        fig.description = FigureDescription(model=describer.name, short=_short_form(parts[0]), long=long)
+        n = len(raw)
+        short = _short_form(raw[0]) if n == 1 else (
+            f"It has {n} panels. Panel 1: {_short_form(raw[0])} Say 'describe {fig.label}' for all panels.")
+        fig.description = FigureDescription(model=describer.name, short=short, long=" ".join(parts))
     return doc
 
 

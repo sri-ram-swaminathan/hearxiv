@@ -54,11 +54,61 @@ def extract_numbers(text: str) -> list[float]:
                 out.append(float(s))
         except (ValueError, OverflowError):
             continue
-    words = {"zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
-             "seven": 7, "eight": 8, "nine": 9, "ten": 10}
-    for w, v in words.items():
-        if re.search(rf"\b{w}\b", t, re.I):
-            out.append(float(v))
+    out += spoken_numbers(t)
+    return out
+
+
+# Spoken numbers ("four point five", "eighty-eight", "ten thousand", "zero point nine four") ----
+# Models asked to write for text-to-speech often spell numbers out; the scorer must read them too.
+
+_UNITS = {w: i for i, w in enumerate(
+    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
+    "sixteen seventeen eighteen nineteen".split())}
+_TENS = {w: 10 * i for i, w in enumerate("_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()) if w != "_"}
+_SCALES = {"hundred": 100, "thousand": 1_000, "million": 1_000_000, "billion": 1_000_000_000}
+_NUMWORD = re.compile(r"[a-z]+(?:-[a-z]+)?|\.|,")
+
+
+def spoken_numbers(text: str) -> list[float]:
+    toks = _NUMWORD.findall(text.lower())
+    out, i = [], 0
+    while i < len(toks):
+        parts = toks[i].split("-")
+        if not all(p in _UNITS or p in _TENS for p in parts) and toks[i] not in ("a",):
+            i += 1
+            continue
+        if toks[i] == "a" and (i + 1 >= len(toks) or toks[i + 1] not in _SCALES):
+            i += 1
+            continue
+        total, current, j = 0, 0, i
+        while j < len(toks):
+            tok = toks[j]
+            ps = tok.split("-")
+            if tok == "a":
+                current += 1
+            elif all(p in _UNITS or p in _TENS for p in ps):
+                current += sum(_UNITS.get(p, _TENS.get(p, 0)) for p in ps)
+            elif tok == "hundred":
+                current = max(current, 1) * 100
+            elif tok in ("thousand", "million", "billion"):
+                total += max(current, 1) * _SCALES[tok]
+                current = 0
+            elif tok == "and" and j + 1 < len(toks) and (toks[j + 1] in _UNITS or toks[j + 1].split("-")[0] in _TENS):
+                pass
+            else:
+                break
+            j += 1
+        value = float(total + current)
+        if j < len(toks) and toks[j] == "point":  # decimals are read digit by digit
+            digits, k = "", j + 1
+            while k < len(toks) and toks[k] in _UNITS and _UNITS[toks[k]] < 10:
+                digits += str(_UNITS[toks[k]])
+                k += 1
+            if digits:
+                value = float(f"{int(value)}.{digits}")
+                j = k
+        out.append(value)
+        i = max(j, i + 1)
     return out
 
 

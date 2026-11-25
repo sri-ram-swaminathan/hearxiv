@@ -67,6 +67,7 @@ def main(argv=None):
     pk.add_argument("--mode", default="5min")
     pk.add_argument("-o", "--out", default=None)
     pk.add_argument("--max-segments", type=int, default=None)
+    pk.add_argument("--regenerate", action="store_true", help="rebuild the script instead of reusing the cached one")
     pa = sub.add_parser("ask", help="ask a question about a paper")
     pa.add_argument("paper")
     pa.add_argument("question")
@@ -77,12 +78,15 @@ def main(argv=None):
         return
     doc = load_or_ingest(a.paper)
     if a.cmd in {"script", "speak"}:
-        from hearxiv.narrate.script import build_script
+        from hearxiv.narrate.script import Script, build_script
 
-        script = build_script(doc, a.mode)
         d = paper_dir(doc.arxiv_id, doc.version)
-        (d / f"script_{a.mode}.json").write_text(json.dumps(script.model_dump(), indent=1, ensure_ascii=False),
-                                                 encoding="utf-8")
+        cached = d / f"script_{a.mode}.json"
+        if a.cmd == "speak" and cached.exists() and not a.regenerate:
+            script = Script.model_validate_json(cached.read_text(encoding="utf-8"))
+        else:
+            script = build_script(doc, a.mode)
+            cached.write_text(json.dumps(script.model_dump(), indent=1, ensure_ascii=False), encoding="utf-8")
         if a.cmd == "script":
             for s in script.segments:
                 print(f"[{s.kind}] {s.text}\n")
@@ -100,7 +104,8 @@ def main(argv=None):
                 pcm.append(earcon(s.earcon))
             pcm.append(tts.synthesize(s.text))
             pcm.append(np.zeros(int(24000 * 0.35), np.float32))
-        out = a.out or str(d / f"{a.mode}.wav")
+        out = Path(a.out or d / f"{a.mode}.wav")
+        out.parent.mkdir(parents=True, exist_ok=True)
         write_wav(out, np.concatenate(pcm))
         print(f"wrote {out}")
     elif a.cmd == "ask":
