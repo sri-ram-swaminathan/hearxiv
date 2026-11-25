@@ -40,7 +40,11 @@ class LLM:
 
     @classmethod
     def from_env(cls) -> LLM:
-        return cls(os.environ.get("HEARXIV_LLM", DEFAULT_SPEC))
+        spec = os.environ.get("HEARXIV_LLM")
+        if not spec:  # pick whatever the user has a key for; free tier if that's all there is
+            spec = DEFAULT_SPEC if os.environ.get("OPENAI_API_KEY") else (
+                "gemini:gemini-3.5-flash-lite" if os.environ.get("GEMINI_API_KEY") else "local:default")
+        return cls(spec)
 
     def chat(self, system: str, user: str, json_mode: bool = False, max_tokens: int = 4000) -> str:
         kw = {"response_format": {"type": "json_object"}} if json_mode else {}

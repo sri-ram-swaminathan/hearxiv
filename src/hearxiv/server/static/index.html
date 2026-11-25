@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>hearxiv</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <a class="skip" href="#player">Skip to player</a>
+  <header>
+    <h1>hearxiv</h1>
+    <p class="tagline">Listen to research papers, and talk back to them.</p>
+  </header>
+
+  <main>
+    <!-- 1. Choose a paper -->
+    <section id="choose" aria-labelledby="choose-h">
+      <h2 id="choose-h">Choose a paper</h2>
+      <form id="load-form">
+        <label for="paper">arXiv or alphaXiv link, or paper id</label>
+        <div class="row">
+          <input id="paper" name="paper" type="text" inputmode="url" autocomplete="off"
+                 placeholder="e.g. arxiv.org/abs/1706.03762" aria-describedby="paper-hint">
+        </div>
+        <p id="paper-hint" class="hint">Press Enter to load. The first time a paper is opened, its figures are described; after that it starts instantly.</p>
+        <fieldset>
+          <legend>How much do you want to hear?</legend>
+          <label><input type="radio" name="mode" value="5min" checked> 5-minute summary</label>
+          <label><input type="radio" name="mode" value="10min"> 10-minute summary</label>
+          <label><input type="radio" name="mode" value="full"> The whole paper</label>
+        </fieldset>
+        <button type="submit" class="primary">Load paper</button>
+      </form>
+      <div id="library" hidden>
+        <h3>Papers you opened before</h3>
+        <ul id="library-list"></ul>
+      </div>
+    </section>
+
+    <!-- 2. Player -->
+    <section id="player" aria-labelledby="player-h" hidden>
+      <h2 id="player-h">Now playing</h2>
+      <p id="title" class="title"></p>
+      <p id="section" class="section-name"></p>
+
+      <div id="keys-region" role="application" tabindex="0"
+           aria-label="Player. Hold Space to talk. K play or pause. J and L back and forward one sentence. Left and right brackets for previous and next section. Minus and equals for speed. W where am I. H help."
+           aria-roledescription="audio player">
+        <p id="caption" class="caption" aria-hidden="true"></p>
+        <div class="progress" aria-hidden="true"><div id="progress-bar"></div></div>
+      </div>
+
+      <div class="controls" role="group" aria-label="Playback controls">
+        <button id="btn-prev-sec" title="Previous section ( [ )">⏮ Section</button>
+        <button id="btn-back" title="Back one sentence (J)">◀ Sentence</button>
+        <button id="btn-play" class="primary big" title="Play or pause (K)">Play</button>
+        <button id="btn-fwd" title="Forward one sentence (L)">Sentence ▶</button>
+        <button id="btn-next-sec" title="Next section ( ] )">Section ⏭</button>
+      </div>
+      <div class="controls" role="group" aria-label="Speed">
+        <button id="btn-slower" title="Slower (minus)">Slower</button>
+        <span id="speed" aria-live="polite">Speed 1×</span>
+        <button id="btn-faster" title="Faster (equals)">Faster</button>
+        <button id="btn-where" title="Where am I (W)">Where am I?</button>
+        <button id="btn-help" title="Help (H)">What can I say?</button>
+      </div>
+
+      <button id="btn-talk" class="talk" aria-describedby="talk-hint">🎙 Hold to talk</button>
+      <p id="talk-hint" class="hint">Hold Space or this button, speak, then let go. For example: “what does that mean?”, “describe figure 2”, “go to results”, “slower”.</p>
+
+      <form id="ask-form" class="row">
+        <label for="ask" class="visually-hidden">Type a question or command</label>
+        <input id="ask" type="text" autocomplete="off" placeholder="Or type a question or command and press Enter">
+        <button type="submit">Ask</button>
+      </form>
+
+      <details id="figs">
+        <summary>Figures and sections</summary>
+        <div id="nav-lists"></div>
+      </details>
+
+      <h3>Conversation</h3>
+      <ol id="log" class="log"></ol>
+    </section>
+  </main>
+
+  <div id="status" role="status" aria-live="polite" class="status"></div>
+  <div class="text-size" role="group" aria-label="Text size">
+    <button id="a-minus" aria-label="Smaller text">A−</button>
+    <button id="a-plus" aria-label="Larger text">A+</button>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

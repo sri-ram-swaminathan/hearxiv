@@ -42,7 +42,18 @@ class Session:
 
     # navigation helpers ------------------------------------------------------------------------
     def _heading_indices(self) -> list[int]:
-        return [i for i, s in enumerate(self.script.segments) if s.kind in {"heading", "abstract"}]
+        """Section boundaries: explicit headings (full mode) or changes of source section (summaries)."""
+        out, prev = [], None
+        for i, s in enumerate(self.script.segments):
+            if s.kind in {"heading", "abstract"} or (s.section_id and s.section_id != prev):
+                out.append(i)
+            prev = s.section_id or prev
+        return sorted(set(out))
+
+    def _section_index(self, sec_id: str) -> int | None:
+        """First segment that comes from this section or one of its subsections."""
+        return next((i for i, s in enumerate(self.script.segments)
+                     if s.section_id and (s.section_id == sec_id or s.section_id.startswith(sec_id + "."))), None)
 
     def where_am_i(self) -> str:
         sec_id = next((s.section_id for s in reversed(self.script.segments[: self.cursor + 1]) if s.section_id), None)
@@ -87,21 +98,24 @@ class Session:
             target = prev[-2] if len(prev) >= 2 else 0
             return Reply(resume_at=target)
         if m := re.match(r"(?:go to|jump to|skip to)\s+(?:the\s+)?(?:section\s+)?(.+)", u):
-            target = m.group(1).strip()
-            if target == "abstract":
-                i = next((i for i, s in enumerate(self.script.segments) if s.kind == "abstract"), None)
-                if i is not None:
-                    return Reply(resume_at=i)
-            secs = {s.id: s for s in self.doc.iter_sections()}
-            headings = [(i, secs.get(self.script.segments[i].source_id)) for i in self._heading_indices()]
-            headings = [(i, s) for i, s in headings if s is not None]
+            target = re.sub(r"^(?:the|section)\s+|\s+(?:section|part)$", "", m.group(1).strip()).strip()
+            if target in {"abstract", "beginning", "start"}:
+                i = next((i for i, s in enumerate(self.script.segments) if s.kind == "abstract"), 0)
+                return Reply(resume_at=i)
+            secs = list(self.doc.iter_sections())
             # exact number ("go to section 3.2"), then exact title, then title containing the words
             for test in (lambda s: s.number == target,
                          lambda s: s.title.lower() == target,
-                         lambda s: target in s.title.lower()):
-                hit = next((i for i, s in headings if test(s)), None)
+                         lambda s: target in s.title.lower(),
+                         lambda s: all(w in s.title.lower() for w in target.split())):
+                sec = next((s for s in secs if test(s)), None)
+                if sec is None:
+                    continue
+                hit = self._section_index(sec.id)
                 if hit is not None:
                     return Reply(resume_at=hit)
+                return Reply(say=f"This summary doesn't cover {sec.title}. Load the whole paper to hear it.",
+                             resume_at=here)
             return Reply(say=f"I couldn't find a section called {target}.", resume_at=here)
         if m := re.match(r"(?:describe|tell me about|explain)\s+(fig(?:ure)?|table)\.?\s*(\d+)", u):
             obj = self._find_object(m.group(1), m.group(2))

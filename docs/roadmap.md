@@ -15,10 +15,14 @@ outcome. Then the winning approach moves into `src/hearxiv/` with tests.
 - [x] **Notebook 01:** figure-description model benchmark on standard seaborn plots
 
 ### M1: end-to-end local demo
-- [ ] Local server (FastAPI + WebSocket): streams Phonon PCM, receives mic audio
-- [ ] Web page player: play/pause, speed, push-to-talk, earcons, keyboard shortcuts
-  (screen-reader friendly: every control is a real button)
-- [ ] VAD barge-in (Silero, `@ricky0123/vad-web`) and STT (Moonshine / faster-whisper)
+- [x] Local server (FastAPI): sentence-level Phonon audio with prefetch, push-to-talk audio in
+- [x] Web app player: play/pause, speed, push-to-talk, earcons, keyboard shortcuts, large captions,
+  live-region announcements, typed commands (screen-reader friendly: every control is a real button)
+- [x] On-device STT (Moonshine-base via transformers)
+- [x] Extension "Listen" button opens the app for that paper
+- [ ] Hands-free barge-in with VAD (Silero / `@ricky0123/vad-web`) as an option next to push-to-talk
+- [ ] Streaming Q&A answers (speak the first sentence while the LLM is still writing)
+- [ ] Testing with screen readers (NVDA, JAWS, VoiceOver) and with blind users
 - [ ] Notebook 02: pronunciation ASR round-trip over the lexicon
 - [ ] Notebook 03: parse coverage on 200 random recent cs.* papers (sections found, figures with
   images, `.ltx_ERROR` rate)

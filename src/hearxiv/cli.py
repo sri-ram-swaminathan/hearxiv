@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -68,6 +69,8 @@ def main(argv=None):
     pk.add_argument("-o", "--out", default=None)
     pk.add_argument("--max-segments", type=int, default=None)
     pk.add_argument("--regenerate", action="store_true", help="rebuild the script instead of reusing the cached one")
+    pv = sub.add_parser("serve", help="start the voice-first app at http://localhost:8765")
+    pv.add_argument("--port", type=int, default=8765)
     pa = sub.add_parser("ask", help="ask a question about a paper")
     pa.add_argument("paper")
     pa.add_argument("question")
@@ -75,6 +78,12 @@ def main(argv=None):
 
     if a.cmd == "ingest":
         load_or_ingest(a.paper, a.describer, a.equations)
+        return
+    if a.cmd == "serve":
+        os.environ.setdefault("HF_HUB_DISABLE_SYMLINKS_WARNING", "1")
+        from hearxiv.server.app import run
+
+        run(port=a.port)
         return
     doc = load_or_ingest(a.paper)
     if a.cmd in {"script", "speak"}:

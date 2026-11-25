@@ -2,11 +2,16 @@
   "manifest_version": 3,
   "name": "hearxiv - listen to arXiv papers",
   "version": "0.0.1",
-  "description": "Voice-first, interactive audio for arXiv papers. Free and open source.",
-  "permissions": ["sidePanel", "storage"],
-  "host_permissions": ["http://localhost:8765/*"],
-  "side_panel": { "default_path": "sidepanel.html" },
-  "background": { "service_worker": "background.js" },
+  "description": "Adds a 'Listen' button to arXiv and alphaXiv papers that opens the hearxiv voice app.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:8765/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": [
@@ -16,7 +21,9 @@
         "https://www.alphaxiv.org/abs/*",
         "https://alphaxiv.org/abs/*"
       ],
-      "js": ["content.js"],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ]

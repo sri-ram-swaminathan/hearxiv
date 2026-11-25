@@ -45,14 +45,16 @@ class PhononTTS:
         return Path(path)
 
 
-def write_wav(path: str | Path, pcm: np.ndarray, sample_rate: int = SAMPLE_RATE) -> Path:
+def write_wav(path, pcm: np.ndarray, sample_rate: int = SAMPLE_RATE):
+    """Write 16-bit mono WAV to a path or a binary file-like object."""
     pcm16 = (np.clip(pcm, -1, 1) * 32767).astype(np.int16)
-    with wave.open(str(path), "wb") as w:
+    target = str(path) if isinstance(path, (str, Path)) else path
+    with wave.open(target, "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
         w.setframerate(sample_rate)
         w.writeframes(pcm16.tobytes())
-    return Path(path)
+    return path
 
 
 def earcon(kind: str, sample_rate: int = SAMPLE_RATE) -> np.ndarray:

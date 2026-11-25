@@ -1,0 +1,57 @@
+:root {
+  --bg: #fbfaf7; --fg: #141413; --muted: #55534d; --panel: #ffffff; --line: #d9d6cc;
+  --accent: #1c5cab; --accent-fg: #ffffff; --talk: #ffd400; --talk-fg: #141413; --live: #b3261e;
+  --focus: #eda100; --scale: 1;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #141413; --fg: #f0efec; --muted: #c3c2b7; --panel: #1f1f1d; --line: #3a3a36;
+          --accent: #86b6ef; --accent-fg: #0d1a2b; --focus: #ffd400; }
+}
+* { box-sizing: border-box; }
+html { font-size: calc(18px * var(--scale)); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 1rem/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header, main { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
+header { padding-top: 1.5rem; }
+h1 { font-size: 2.2rem; margin: 0; letter-spacing: -0.02em; }
+.tagline { color: var(--muted); margin-top: .2rem; }
+h2 { font-size: 1.4rem; margin: 1.5rem 0 .6rem; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.25rem 1.25rem; margin: 1rem 0; }
+label { display: block; font-weight: 600; margin-bottom: .3rem; }
+fieldset { border: 1px solid var(--line); border-radius: 10px; margin: 1rem 0; padding: .6rem 1rem; }
+fieldset label { font-weight: 400; display: flex; gap: .6rem; align-items: center; padding: .25rem 0; }
+input[type=text] { width: 100%; font-size: 1.1rem; padding: .7rem .8rem; border: 2px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--fg); }
+input[type=radio] { width: 1.2rem; height: 1.2rem; }
+.row { display: flex; gap: .5rem; }
+.hint { color: var(--muted); font-size: .9rem; }
+button { font: inherit; font-size: 1rem; padding: .6rem 1rem; border-radius: 10px; border: 2px solid var(--fg);
+         background: var(--panel); color: var(--fg); cursor: pointer; min-height: 48px; }
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); font-weight: 700; }
+button.big { min-width: 8rem; font-size: 1.15rem; }
+:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
+.controls { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; margin: .6rem 0; }
+#speed { min-width: 6rem; text-align: center; font-weight: 600; }
+.title { font-size: 1.25rem; font-weight: 700; margin: 0; }
+.section-name { color: var(--muted); margin: .2rem 0 .8rem; }
+#keys-region { border: 2px dashed var(--line); border-radius: 12px; padding: 1rem; margin: .5rem 0; }
+#keys-region:focus-visible { border-style: solid; }
+.caption { font-size: 1.6rem; line-height: 1.45; min-height: 4.5em; margin: 0; }
+.caption.answer { border-left: 6px solid var(--accent); padding-left: .8rem; }
+.progress { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin-top: .8rem; }
+#progress-bar { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+.talk { display: block; width: 100%; margin-top: 1rem; font-size: 1.4rem; font-weight: 800; padding: 1.1rem;
+        background: var(--talk); color: var(--talk-fg); border-color: var(--talk-fg); }
+.talk.listening { background: var(--live); color: #fff; border-color: var(--live); }
+.log { padding-left: 1.2rem; }
+.log li { margin: .5rem 0; }
+.log .you { font-weight: 700; }
+.status { position: fixed; bottom: 0; left: 0; right: 0; background: var(--fg); color: var(--bg); padding: .6rem 1rem;
+          font-size: .95rem; text-align: center; }
+.status:empty { display: none; }
+.text-size { position: fixed; top: .8rem; right: .8rem; display: flex; gap: .3rem; }
+.text-size button { min-height: 40px; padding: .3rem .7rem; }
+.skip { position: absolute; left: -999px; } .skip:focus { left: 1rem; top: 1rem; background: var(--panel); padding: .5rem; z-index: 9; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+#library ul, #nav-lists ul { padding-left: 1.2rem; }
+#nav-lists button, #library button { min-height: 40px; margin: .15rem 0; text-align: left; }
+@media (max-width: 600px) { .caption { font-size: 1.3rem; } button.big { min-width: 0; } }
+@media (prefers-reduced-motion: reduce) { #progress-bar { transition: none; } }

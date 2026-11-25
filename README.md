@@ -53,9 +53,32 @@ Requires [uv](https://docs.astral.sh/uv/) and Python 3.12.
 
 ```bash
 git clone https://github.com/sri-ram-swaminathan/hearxiv && cd hearxiv
-uv sync --extra tts --extra svg          # add --extra local for on-device vision models
+uv sync --extra tts --extra svg --extra local
 cp .env.example .env                     # optional: OPENAI_API_KEY and/or GEMINI_API_KEY
+uv run python -m hearxiv serve           # then open http://localhost:8765
+```
 
+### Using the app
+
+1. Paste an arXiv or alphaXiv link and press **Enter**. Or click **Listen with hearxiv** on any
+   arXiv or alphaXiv page if the extension is installed (load `extension/` unpacked in Chrome).
+2. Choose a **5-minute summary**, a **10-minute summary** or **the whole paper**.
+3. It starts talking. **Hold Space** (or the big button) at any time, say something, and let go:
+   - "what does that mean?" or "how big was the dataset?" (questions are answered from the paper)
+   - "describe figure 2", "read table 1"
+   - "go to results", "next section", "go back", "repeat"
+   - "slower", "faster", "where am I?", "what can I say?"
+4. Keyboard: **K** play/pause · **J / L** back/forward one sentence · **[ / ]** previous/next
+   section · **− / =** speed · **W** where am I · **H** help · **T** type a question · **Esc** cancel.
+
+Everything is announced to screen readers through a live region, every control is a real button,
+and the current sentence is shown as a large caption (with **A−/A+** text size and dark mode) for
+low-vision users. Speech recognition (Moonshine) and speech synthesis (Phonon) both run on your
+machine.
+
+### Developer CLI
+
+```bash
 # 1. parse + describe figures (once per paper)
 uv run python -m hearxiv ingest 1706.03762 --describer openai:gpt-6.1-terra --equations
 #    zero-cost alternatives:  --describer gemini:gemini-3.5-flash-lite   (free tier)
